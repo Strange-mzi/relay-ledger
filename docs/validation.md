@@ -1,22 +1,26 @@
 # Release validation
 
-Recorded: 2026-09-21, v0.2.0 release preparation.
+Recorded: 2026-09-21, v0.2.1 release preparation.
 
 | Check | Observed result |
 | --- | --- |
 | Standard-library package checker, Windows | Passed |
-| Ten checker regression tests, Windows | Passed |
+| Thirteen checker regression tests, Windows | Passed |
 | Standard-library package checker, WSL Ubuntu | Passed |
-| Ten checker regression tests, WSL Ubuntu | Passed |
+| Thirteen checker regression tests, WSL Ubuntu | Passed |
 | Local skill-creator frontmatter validation | Passed |
 | Codex plugin-creator manifest validation | Passed |
 | Claude Code 2.1.278 `plugin validate --strict` | Passed |
 | Claude Code 2.1.278 session-local native plugin discovery | `relay-ledger@inline` version 0.2.0, enabled |
 | Codex CLI 0.133.0 isolated marketplace discovery and installation | `relay-ledger` version 0.2.0, installed and enabled |
+| Claude Code 2.1.278 public GitHub marketplace add + install | `relay-ledger@relay-ledger` version 0.2.1, installed and enabled |
+| Codex CLI 0.133.0 public GitHub marketplace add + install | `relay-ledger@relay-ledger` version 0.2.1, installed and enabled |
 
 The checker verifies required files, skill identity, description bounds, local Markdown links, entrypoint ceiling, shared host-manifest versions and machine-specific path leakage. Its tests exercise failure cases as well as the release package. It is not a comprehensive secret scanner or behavioral evaluator.
 
 Native discovery checks made no model requests. Codex used a temporary isolated home/marketplace; Claude used session-local `--plugin-dir`. Neither check changed the user's installed plugin configuration. Both hosts consume the same canonical skill directory; no hook or agent runtime was required.
+
+The v0.2.1 public installation checks used fresh temporary `CODEX_HOME` and `CLAUDE_CONFIG_DIR` locations, resolving `Strange-mzi/relay-ledger` over HTTPS and installing the exact documented `relay-ledger@relay-ledger` identifier. No pre-existing marketplace or local plugin checkout was needed. This confirms the two-command installation path without modifying the user's normal configuration.
 
 The release contains only original generic instructions, templates, documentation and maintainer checks. No project acceptance ledger, user conversation or business repository file is included.
 
