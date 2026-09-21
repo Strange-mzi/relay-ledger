@@ -2,7 +2,7 @@
 
 **少带上下文，使用原生能力，凭证据交接。**
 
-[English](README.md) · [Skill 入口](skills/relay-ledger/SKILL.md)
+[English](README.md) · [Claude / Codex 原生安装](docs/native-install.md) · [Skill 入口](skills/relay-ledger/SKILL.md)
 
 用于长期项目、多会话和不同助手之间的分批计划、实现交接与验收追踪。你说“继续”“审查这个提交”或“给下一批任务”，助手结合当前记录选择角色，不要求每次填写一份角色表。
 
@@ -14,14 +14,18 @@
 - 不预设模型、推理强度、上下文窗口，也不替代宿主的计划、工具和权限机制。
 - 没有自动循环、每轮注入、安装钩子、后台进程或网络上传。
 - 不把自报完成写成独立验收通过；读写权限跟随当前授权。
+- 每条验收标准对应实现与验证证据；依赖没有验收，不自动把下一批标为可开始。
 
 ## 安装与使用
 
-把仓库中的整个 `skills/relay-ledger` 文件夹复制到使用工具原生支持的 Skill 目录。支持项目 `.agents/skills` 的工具可放到：
+把仓库中的整个 `skills/relay-ledger` 文件夹复制到所用工具的原生目录：
 
-```text
-项目/.agents/skills/relay-ledger/
-```
+| 工具 | 项目级目录 | 个人级目录 | 调用 |
+| --- | --- | --- | --- |
+| Claude Code | `.claude/skills/relay-ledger/` | `~/.claude/skills/relay-ledger/` | `/relay-ledger` |
+| Codex | `.agents/skills/relay-ledger/` | `~/.agents/skills/relay-ledger/` | `$relay-ledger` |
+
+同时提供 `.claude-plugin/plugin.json` 与 `.codex-plugin/plugin.json`，用于原生插件封装；两端共用同一份 Skill，不复制两套提示词。Claude 可通过 `claude --plugin-dir ./relay-ledger` 临时加载，详见原生安装文档。不会自动改你的全局设置或市场配置。
 
 以宿主实际文档为准。可选的 `agents/openai.yaml` 只提供 Codex 显示信息，其他工具不需要解析它。不要重复安装多个同名副本。
 
@@ -43,6 +47,6 @@
 
 ## 验证与开源范围
 
-本包使用 Agent Skills 标准格式和 Markdown，没有运行时依赖。格式、文件链接和入口大小可用仓库检查脚本验证；行为场景见 [evals/scenarios.md](evals/scenarios.md)。没有宣称在所有模型上完成实测，也不保证所有宿主都会自动发现技能。
+本包使用 Agent Skills 标准格式和 Markdown，没有运行时依赖。格式、双端清单、文件链接和入口大小可用仓库检查脚本验证；行为场景见 [evals/scenarios.md](evals/scenarios.md)，可复用输入见 [evals/cases.json](evals/cases.json)。没有宣称在所有模型上完成实测，也不保证所有宿主都会自动发现技能。
 
 借鉴项目与差异见[设计说明](docs/design.md)。MIT 开源；欢迎围绕真实失败场景改进，避免把个例堆成全局强制流程。

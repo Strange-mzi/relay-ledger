@@ -30,9 +30,13 @@ Goal:
 Baseline:
 Scope / non-goals:
 Dependencies and write ownership:
+Blocking dependency IDs / evidence of clearance:
 Read first: specific files or sections
 Controlling decisions and invariants:
 Acceptance criteria:
+| Acceptance ID | Observable requirement | Implementation | Verification / result |
+| --- | --- | --- | --- |
+| AC-01 | describe behavior | file or artifact | unverified until checked |
 Verification appropriate to this change:
 Report destination:
 Commit/publication permissions:
@@ -55,6 +59,7 @@ Superseded decisions: reason and replacement
 | --- | --- | --- | --- | --- | --- |
 
 Next batch and dependencies:
+Deferred items: current limit, revisit trigger, owner or unassigned
 Deployment/user acceptance evidence: unverified until established
 ```
 

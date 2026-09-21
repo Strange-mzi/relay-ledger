@@ -4,6 +4,7 @@ This checks packaging, not the behavior of a language model.
 """
 
 from pathlib import Path
+import json
 import re
 import sys
 
@@ -34,6 +35,38 @@ def check(root: Path) -> list[str]:
             errors.append("Description must contain 1..1024 characters")
     if len(entry.encode("utf-8")) > MAX_ENTRY_BYTES or len(entry.split()) > MAX_ENTRY_WORDS:
         errors.append("Entrypoint exceeds the documented package context ceiling")
+
+    versions = []
+    for host in ("claude", "codex"):
+        manifest_path = root / f".{host}-plugin/plugin.json"
+        try:
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            if manifest.get("name") != "relay-ledger":
+                errors.append(f"{host} manifest has a different plugin identity")
+            version = manifest.get("version", "")
+            if not re.fullmatch(r"\d+\.\d+\.\d+", version):
+                errors.append(f"{host} manifest needs a release version")
+            versions.append(version)
+            if host == "codex" and manifest.get("skills") != "./skills/":
+                errors.append("Codex must load the canonical skills directory")
+            if host == "claude" and "skills" in manifest:
+                errors.append("Claude must use default canonical skills discovery")
+            if any(key in manifest for key in ("hooks", "mcpServers", "apps", "agents", "commands")):
+                errors.append(f"Unexpected runtime component in {host} manifest")
+        except (OSError, ValueError, AttributeError, TypeError) as error:
+            errors.append(f"Invalid {host} manifest: {error}")
+    if len(set(versions)) > 1:
+        errors.append("Host manifest versions disagree")
+    try:
+        suite = json.loads((root / "evals/cases.json").read_text(encoding="utf-8"))
+        cases = suite["cases"]
+        ids = [case["id"] for case in cases]
+        if len(ids) != len(set(ids)):
+            errors.append("Duplicate evaluation case ID")
+        if not cases or any(not case.get("prompt") or not case.get("expected") for case in cases):
+            errors.append("Evaluation cases need prompts and observable expectations")
+    except (OSError, ValueError, KeyError, TypeError) as error:
+        errors.append(f"Invalid evaluation cases: {error}")
 
     for file in root.rglob("*"):
         relative = file.relative_to(root)

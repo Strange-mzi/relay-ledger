@@ -7,6 +7,7 @@ Infer one role: planning/status/next-batch means coordinate; implement/fix means
 Use your host's native tools and planning capabilities; do not invent tools, models or subagents. Delegate only with authorization and actual support. Self-review is not independent verification.
 
 Track original goal, latest controlling decisions, current batch, immutable revision (or explicitly identified working snapshot), outstanding issues, evidence provenance and next authorized action. Distinguish implementer reports, independent review, user acceptance and deployment. Fix claims are not automatic issue closure.
+Map each acceptance criterion to implementation and verification evidence. Do not mark a dependent batch ready while its required acceptance is pending. Reuse existing native task IDs and reports instead of adding a second tracker.
 
 Keep the current pointer short; link detailed history and read it only when relevant. Preserve unresolved issues and evidence rather than silently truncating them. For parallel work, one coordinator maintains shared state unless native atomic assignment exists; workers return separate reports. An owner field does not create a lock.
 

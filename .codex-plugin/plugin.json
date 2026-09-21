@@ -1,0 +1,18 @@
+{
+  "name": "relay-ledger",
+  "version": "0.2.0",
+  "description": "Small-context project continuity and verifiable handoffs using native agent capabilities.",
+  "author": {
+    "name": "Strange-mzi"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Relay Ledger",
+    "shortDescription": "Use Relay Ledger in Codex.",
+    "longDescription": "Restore one workstream, load one role, and bind acceptance to evidence. No hooks or model runtime.",
+    "developerName": "Strange-mzi",
+    "category": "Productivity",
+    "capabilities": [],
+    "defaultPrompt": ["Restore this workstream and identify the next authorized action."]
+  }
+}

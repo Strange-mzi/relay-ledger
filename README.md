@@ -2,7 +2,7 @@
 
 **Small context. Native agents. Verifiable handoffs.**
 
-[简体中文](README.zh-CN.md) · [Skill](skills/relay-ledger/SKILL.md) · [Design and sources](docs/design.md)
+[简体中文](README.zh-CN.md) · [Native Claude / Codex installation](docs/native-install.md) · [Skill](skills/relay-ledger/SKILL.md) · [Design and sources](docs/design.md)
 
 Relay Ledger is an instruction-only Agent Skill for continuing bounded project work across sessions and assistants. It preserves the goal, current assignment, role and acceptance evidence without feeding every session the entire project history.
 
@@ -11,6 +11,7 @@ Relay Ledger is an instruction-only Agent Skill for continuing bounded project w
 - Routes an explicit request to coordination, implementation or review.
 - Restores a short current pointer and one batch brief; loads one role reference on demand.
 - Separates reported completion from independently verified acceptance and deployment.
+- Links each acceptance criterion to implementation and verification evidence; checks blockers before handing off dependent work.
 - Produces a small handoff, including what the next agent is authorized to do.
 - Works alongside existing project records instead of installing a second project manager.
 
@@ -18,7 +19,16 @@ It is not an agent runtime. It does not launch models, force chain-of-thought, i
 
 ## Install
 
-Copy **the whole `skills/relay-ledger` directory** to your tool's native Agent Skills directory. Keep the references and assets alongside `SKILL.md`. For tools following project-local Agent Skills discovery:
+Copy **the whole `skills/relay-ledger` directory** to your tool's native Agent Skills directory. Keep the references and assets alongside `SKILL.md`.
+
+| Host | Project install | Personal install | Direct invocation |
+| --- | --- | --- | --- |
+| Claude Code | `.claude/skills/relay-ledger/` | `~/.claude/skills/relay-ledger/` | `/relay-ledger` |
+| Codex | `.agents/skills/relay-ledger/` | `~/.agents/skills/relay-ledger/` | `$relay-ledger` |
+
+Thin native plugin manifests are also included; both load the **same** `skills/` tree. See [native installation](docs/native-install.md) for session-local Claude plugin loading and Codex packaging details. No plugins or host configuration are installed automatically.
+
+For Codex project-local discovery:
 
 ```text
 your-project/.agents/skills/relay-ledger/SKILL.md
@@ -58,7 +68,7 @@ For simultaneous workers, use native atomic assignments if available. Otherwise 
 
 The package follows [Agent Skills](https://agentskills.io/specification). It uses ordinary Markdown and tool-neutral instructions: no fixed model names, context-window assumptions or mandatory subagent APIs. This enables portability, not a claim of identical behavior across all models.
 
-See [compatibility and evaluation boundaries](docs/compatibility.md). Validation includes package checks and documented scenario expectations; no cross-model performance benchmark is claimed.
+See [compatibility and evaluation boundaries](docs/compatibility.md). Validation includes package checks, host manifest validation, [scenario expectations](evals/scenarios.md) and [structured cases](evals/cases.json); no cross-model performance benchmark is claimed.
 
 ```sh
 python scripts/check_package.py

@@ -13,6 +13,7 @@ Write a scoped report when permitted:
 - Batch ID, role and actual baseline/result revision.
 - Behavior delivered and files changed.
 - Checks run, results and evidence locations.
+- Acceptance IDs covered, unmet criteria and evidence tied to this revision.
 - Known gaps, unverified boundaries and relevant concurrent work.
 - Status: reported-complete or blocked, not independently-verified.
 

@@ -1,0 +1,36 @@
+{
+  "skill": "relay-ledger",
+  "execution_status": "not-run",
+  "cases": [
+    {
+      "id": "resume-review",
+      "prompt": "Continue this project. The supplied current record is the only planning context.",
+      "context": "Batch B03; authorized role: review; target revision abc123; no file writes; criteria AC-01 requires denying cross-account updates.",
+      "expected": ["Retain review role", "Request or inspect revision abc123", "Do not edit files", "Do not request all chat history"]
+    },
+    {
+      "id": "unrelated-negative",
+      "prompt": "Translate 'the train arrives at noon' into Chinese.",
+      "context": "A project record exists, but this request is unrelated.",
+      "expected": ["Translate directly", "Do not read or update the ledger", "Do not adopt a project role"]
+    },
+    {
+      "id": "evidence-revision",
+      "prompt": "The implementer says AC-01 is fixed. Update acceptance status.",
+      "context": "AC-01 was reported against abc123. The actual fix is an uncommitted working-tree edit. No independent review has occurred.",
+      "expected": ["Record reported fix with working-tree qualification", "Keep independent review pending", "Do not mark abc123 as fixed or deployed"]
+    },
+    {
+      "id": "blocked-batch",
+      "prompt": "Give me the next batch to implement.",
+      "context": "B04 depends on B03 acceptance. B03 is changes-requested with issue B03-01 open. B05 is unrelated, authorized and unassigned.",
+      "expected": ["Do not mark B04 ready", "Identify B03 repair or authorized B05 as the available next work", "Do not start implementation"]
+    },
+    {
+      "id": "occupied-assignment",
+      "prompt": "Continue B03.",
+      "context": "Session alpha is actively implementing B03. This session has no independent assignment. No atomic task-claim tool is available.",
+      "expected": ["Do not overwrite the owner or duplicate the implementation", "Ask one necessary clarification or offer independent authorized work", "Do not claim a Markdown field is a lock"]
+    }
+  ]
+}
