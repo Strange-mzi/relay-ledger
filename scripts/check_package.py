@@ -57,6 +57,29 @@ def check(root: Path) -> list[str]:
             errors.append(f"Invalid {host} manifest: {error}")
     if len(set(versions)) > 1:
         errors.append("Host manifest versions disagree")
+    for host, relative in (
+        ("claude", ".claude-plugin/marketplace.json"),
+        ("codex", ".agents/plugins/marketplace.json"),
+    ):
+        try:
+            catalog = json.loads((root / relative).read_text(encoding="utf-8"))
+            if catalog.get("name") != "relay-ledger":
+                errors.append(f"{host} marketplace name breaks the documented install command")
+            entries = catalog.get("plugins", [])
+            if len(entries) != 1 or entries[0].get("name") != "relay-ledger":
+                errors.append(f"{host} marketplace must expose relay-ledger exactly once")
+                continue
+            plugin = entries[0]
+            if host == "claude" and plugin.get("source") != "./":
+                errors.append("Claude marketplace must resolve the repository-root plugin")
+            if host == "codex":
+                expected = {"source": "url", "url": "https://github.com/Strange-mzi/relay-ledger.git", "ref": "main"}
+                if plugin.get("source") != expected:
+                    errors.append("Codex marketplace must resolve the canonical Git source")
+                if plugin.get("policy") != {"installation": "AVAILABLE", "authentication": "ON_INSTALL"}:
+                    errors.append("Codex marketplace has invalid install policy")
+        except (OSError, ValueError, KeyError, IndexError, AttributeError, TypeError) as error:
+            errors.append(f"Invalid {host} marketplace: {error}")
     try:
         suite = json.loads((root / "evals/cases.json").read_text(encoding="utf-8"))
         cases = suite["cases"]

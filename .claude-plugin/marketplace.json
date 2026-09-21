@@ -1,0 +1,14 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "relay-ledger",
+  "description": "Small-context continuity and evidence-based handoffs for native agents.",
+  "owner": { "name": "Strange-mzi", "url": "https://github.com/Strange-mzi" },
+  "plugins": [
+    {
+      "name": "relay-ledger",
+      "description": "Restore one workstream, load one role, and track acceptance evidence.",
+      "source": "./",
+      "category": "productivity"
+    }
+  ]
+}

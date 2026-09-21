@@ -1,6 +1,6 @@
 {
   "name": "relay-ledger",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Small-context project continuity and verifiable handoffs using native agent capabilities.",
   "author": {
     "name": "Strange-mzi"

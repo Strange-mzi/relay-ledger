@@ -1,0 +1,16 @@
+{
+  "name": "relay-ledger",
+  "interface": { "displayName": "Relay Ledger" },
+  "plugins": [
+    {
+      "name": "relay-ledger",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/Strange-mzi/relay-ledger.git",
+        "ref": "main"
+      },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Productivity"
+    }
+  ]
+}

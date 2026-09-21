@@ -18,6 +18,38 @@
 
 ## 安装与使用
 
+**无需额外运行时、钩子或 MCP 服务。** 使用工具已有的插件管理器和 Git 即可，不需要 Node.js 钩子脚本，也不需要去 `/hooks` 授权。
+
+### Claude Code
+
+在 Claude Code 中，分两条消息执行：
+
+```text
+/plugin marketplace add Strange-mzi/relay-ledger
+```
+
+```text
+/plugin install relay-ledger@relay-ledger
+```
+
+新开会话后使用 `/relay-ledger:relay-ledger`。Claude Desktop 的 Code 环境适用；普通聊天界面不是同一套插件入口。
+
+### Codex
+
+在终端分两条命令执行：
+
+```sh
+codex plugin marketplace add Strange-mzi/relay-ledger
+```
+
+```sh
+codex plugin add relay-ledger@relay-ledger
+```
+
+新开任务，在技能选择器选 Relay Ledger，或使用 `$relay-ledger`。桌面端没有显示时重启应用。CLI 与桌面端必须使用同一个 Codex 用户目录；WSL 安装不会自动同步到 Windows。
+
+### 手动安装或临时加载
+
 把仓库中的整个 `skills/relay-ledger` 文件夹复制到所用工具的原生目录：
 
 | 工具 | 项目级目录 | 个人级目录 | 调用 |

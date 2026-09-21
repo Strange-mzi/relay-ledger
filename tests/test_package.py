@@ -74,6 +74,24 @@ class PackageChecks(unittest.TestCase):
         path.write_text(json.dumps(suite), encoding="utf-8")
         self.assertTrue(any("Duplicate evaluation" in error for error in check(self.root)))
 
+    def test_missing_marketplace_breaks_release(self):
+        (self.root / ".agents/plugins/marketplace.json").unlink()
+        self.assertTrue(any("Invalid codex marketplace" in error for error in check(self.root)))
+
+    def test_documented_marketplace_identity_cannot_drift(self):
+        path = self.root / ".claude-plugin/marketplace.json"
+        catalog = json.loads(path.read_text(encoding="utf-8"))
+        catalog["name"] = "different"
+        path.write_text(json.dumps(catalog), encoding="utf-8")
+        self.assertTrue(any("documented install command" in error for error in check(self.root)))
+
+    def test_marketplace_cannot_install_a_different_repo(self):
+        path = self.root / ".agents/plugins/marketplace.json"
+        catalog = json.loads(path.read_text(encoding="utf-8"))
+        catalog["plugins"][0]["source"]["url"] = "https://example.com/other.git"
+        path.write_text(json.dumps(catalog), encoding="utf-8")
+        self.assertTrue(any("canonical Git source" in error for error in check(self.root)))
+
 
 if __name__ == "__main__":
     unittest.main()

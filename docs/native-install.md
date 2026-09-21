@@ -4,6 +4,18 @@ One canonical skill, two thin manifests. No prompt duplication and no lifecycle 
 
 ## Claude Code
 
+**Marketplace (recommended)**: send these as two separate messages in Claude Code:
+
+```text
+/plugin marketplace add Strange-mzi/relay-ledger
+```
+
+```text
+/plugin install relay-ledger@relay-ledger
+```
+
+Then start a new session and invoke `/relay-ledger:relay-ledger`. No hook approval is needed; the package contains no hooks. The `.claude-plugin/marketplace.json` entry loads the repository root as the plugin.
+
 **Direct skill**: copy `skills/relay-ledger/` to either the project's `.claude/skills/relay-ledger/` or your personal `~/.claude/skills/relay-ledger/`. Invoke `/relay-ledger`.
 
 **Session-local plugin**: clone this repository, then point Claude at the repository root:
@@ -26,9 +38,21 @@ See [Claude skills](https://code.claude.com/docs/en/skills) and [plugin referenc
 
 ## Codex
 
+**Marketplace (recommended)**: run these two terminal commands:
+
+```sh
+codex plugin marketplace add Strange-mzi/relay-ledger
+```
+
+```sh
+codex plugin add relay-ledger@relay-ledger
+```
+
+Start a new task; restart the desktop app if needed. This registers the marketplace and installs the plugin in the Codex home used by that CLI. Use the same environment/home as your app.
+
 **Direct skill**: copy `skills/relay-ledger/` to the project's `.agents/skills/relay-ledger/` or your personal `~/.agents/skills/relay-ledger/`. If your current Codex installation manages skills under `~/.codex/skills/`, keep using that recognized location rather than installing a duplicate. Invoke `$relay-ledger` or select it in the skill picker.
 
-**Plugin distribution**: `.codex-plugin/plugin.json` declares `skills: "./skills/"`. A Codex marketplace can reference this repository as its plugin package. This release does not install or rewrite your marketplace. For one skill, the direct route above needs no marketplace or runtime dependency.
+**Plugin distribution**: `.codex-plugin/plugin.json` declares `skills: "./skills/"`. The repository's `.agents/plugins/marketplace.json` references the public Git source. Installation occurs only when you run the plugin commands; the skill itself never changes marketplaces.
 
 See [Codex local skills](https://learn.chatgpt.com/docs/build-skills) and [supported Codex plugin layout](https://developers.openai.com/plugins/build/plugins).
 

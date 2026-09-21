@@ -19,6 +19,38 @@ It is not an agent runtime. It does not launch models, force chain-of-thought, i
 
 ## Install
 
+No runtime dependencies, hooks or MCP servers are bundled. Use your host's existing plugin manager and Git; **no extra Node.js lifecycle scripts or `/hooks` approval step**.
+
+### Claude Code
+
+Run these as **two separate messages** inside Claude Code:
+
+```text
+/plugin marketplace add Strange-mzi/relay-ledger
+```
+
+```text
+/plugin install relay-ledger@relay-ledger
+```
+
+Start a new session and invoke `/relay-ledger:relay-ledger`. This applies to Claude Code, including the Code environment in Claude Desktop; ordinary Claude chat uses a different skill mechanism.
+
+### Codex
+
+Run these as **two terminal commands**:
+
+```sh
+codex plugin marketplace add Strange-mzi/relay-ledger
+```
+
+```sh
+codex plugin add relay-ledger@relay-ledger
+```
+
+Start a new task; if the desktop app does not show it yet, restart the app. Select Relay Ledger in the skill picker or invoke `$relay-ledger`. The app/CLI must use the same Codex home; installing in WSL does not automatically install in Windows.
+
+### Manual skill or temporary plugin
+
 Copy **the whole `skills/relay-ledger` directory** to your tool's native Agent Skills directory. Keep the references and assets alongside `SKILL.md`.
 
 | Host | Project install | Personal install | Direct invocation |
