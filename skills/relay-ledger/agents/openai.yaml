@@ -1,0 +1,4 @@
+interface:
+  display_name: "Relay Ledger · 接力簿"
+  short_description: "Resume scoped work with small context and acceptance evidence"
+  default_prompt: "Use $relay-ledger to restore this workstream and identify the next authorized action."
